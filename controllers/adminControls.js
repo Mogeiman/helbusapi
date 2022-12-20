@@ -58,12 +58,7 @@ exports.addUsers = async (req, res) => {
   
 };
 
-// Athenticating token
-// exports.authentication = (req,res) => {
-//   res.send({messege:"authentication successful", user:req.user})
-// }
 
-//Verifying log in information recieved from the front-end
 
 
 exports.login = async(req, res) => {
