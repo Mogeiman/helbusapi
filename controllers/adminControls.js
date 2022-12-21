@@ -11,8 +11,6 @@ exports.addUsers = async (req, res) => {
     email = email.trim()
     password = password.trim()
     license = license.trim()
-    latitude = latitude
-    longitude = longitude
 
     if(name == "" || email == "" || password == "" || license == ""){
       res.json({
@@ -38,8 +36,6 @@ exports.addUsers = async (req, res) => {
                   email,
                   password: hash,
                   license,
-                  latitude,
-                  longitude
               });
               res.json({
                 status: "SUCCESS",
