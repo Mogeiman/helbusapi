@@ -30,3 +30,15 @@ exports.createLocations = async(req, res) => {
     }
    
 }
+
+
+exports.getLocations = (req, res) => {
+    Locations.findAll({
+        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+    }).then(locations=>{
+        res.json({
+            message: "all locations listed",
+            locations
+        })
+    })
+}

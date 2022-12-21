@@ -17,5 +17,6 @@ module.exports = (app, router) => {
 
 			// creating Locations
 			app.post('/createLocation', LocationController.createLocations)
+			app.get('/getLocations', LocationController.getLocations)
 
 }
