@@ -38,7 +38,7 @@ exports.getLocations = (req, res) => {
     }).then(locations=>{
         res.json({
             message: "all locations listed",
-            locations
+            locations: locations
         })
     })
 }
