@@ -1,35 +1,37 @@
 //creating an instance of all the dependencies
 const express = require('express')
-const {sequelize} = require('./models')
-const {Locations} = require('./models/locations')
 const app = express()
+const http = require('http')
 const cors = require('cors')
 const router = express.Router()
 const bodyParser = require('body-parser')
 require('dotenv').config('./.env')
 
+const {sequelize} = require('./models')
+const {Locations} = require('./models/locations')
 
-
-const server = require('http').createServer(app);
-const io = require('socket.io')(server, {cors: {origin: true}});
+const server = http.createServer(app);
+const {Server} = require('socket.io')
+const io = new Server(server)
 
 //communication between the front and back end
-app.use(cors({origin: true, credentials: true}));
+app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE']}));
 
-io.on('connection', (socket) => {
+io.on('connection', async(socket) => {
     console.log('a user connected');
   
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
-    // const updatedLocations = await  Locations.findAll({
-    //     attributes: ['id','latitude', 'longitude', 'UserId', 'user']
-    // })
+    const updatedLocations = await  Locations.findAll({
+        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+    })
 
     socket.on('locations', (msg) => {
       console.log('location: ' + msg);
-      io.emit('locations', updatedLocations);
+      io.emit('updated_locations', updatedLocations);
     });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
   });
 
 
