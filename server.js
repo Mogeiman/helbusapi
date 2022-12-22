@@ -6,26 +6,25 @@ const app = express()
 const cors = require('cors')
 const router = express.Router()
 const bodyParser = require('body-parser')
-const http = require('http');
 require('dotenv').config('./.env')
 
 
 
-const server = http.createServer(app);
-const io = require('socket.io')(server);
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {cors: {origin: true}});
 
 //communication between the front and back end
 app.use(cors({origin: true, credentials: true}));
 
-io.on('connection', async(socket) => {
+io.on('connection', (socket) => {
     console.log('a user connected');
   
     socket.on('disconnect', () => {
       console.log('user disconnected');
     });
-    const updatedLocations = await  Locations.findAll({
-        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
-    })
+    // const updatedLocations = await  Locations.findAll({
+    //     attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+    // })
 
     socket.on('locations', (msg) => {
       console.log('location: ' + msg);
