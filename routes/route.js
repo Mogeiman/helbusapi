@@ -19,4 +19,7 @@ module.exports = (app, router) => {
 			app.post('/createLocation', LocationController.createLocations)
 			app.get('/getLocations', LocationController.getLocations)
 
+			// update Locations
+			app.post('/updateLocation', LocationController.updateLocation)
+
 }

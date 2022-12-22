@@ -42,3 +42,17 @@ exports.getLocations = (req, res) => {
         })
     })
 }
+
+exports.updateLocation = async(req, res) => {
+    const {latitude, longitude} = req.body
+  const updatedLocation = await Locations.update({
+        latitude,
+        longitude
+    }, {where:{
+        UserId: 7
+    }
+})
+res.json({
+    location:updatedLocation
+})
+}
