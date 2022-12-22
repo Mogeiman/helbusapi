@@ -24,9 +24,9 @@ io.on('connection', async(socket) => {
         attributes: ['id','latitude', 'longitude', 'UserId', 'user']
     })
 
-    socket.on('locations', (msg) => {
+    socket.on('send_locations', (msg) => {
       console.log('location: ' + msg);
-      io.emit('updated_locations', updatedLocations);
+      io.emit('receive_locations', updatedLocations);
     });
 
     socket.on('disconnect', () => {
