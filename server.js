@@ -15,17 +15,78 @@ const {Server} = require('socket.io')
 const io = new Server(server)
 //communication between the front and back end
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE']}));
-console.log('hello')
-io.on('connection', async(socket) => {
+
+// const updatedLocations =async() =>{
+//     const allLocations = await Locations.findAll({
+//     attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+ 
+// })
+// return allLocations
+// } 
+
+// updatedLocations()
+
+// console.log(updatedLocations)
+
+const locations = [
+    {
+        "id": 1,
+        "latitude": "9.583833",
+        "longitude": "44.027833",
+        "UserId": 1,
+        "user": "imam@gmail.com"
+    },
+    {
+        "id": 2,
+        "latitude": "9.58438",
+        "longitude": "44.027734",
+        "UserId": 2,
+        "user": "abdi@gmail.com"
+    },
+    {
+        "id": 3,
+        "latitude": "9.584959",
+        "longitude": "44.027678",
+        "UserId": 3,
+        "user": "ciise@gmail.com"
+    },
+    {
+        "id": 4,
+        "latitude": "9.585001",
+        "longitude": "44.028606",
+        "UserId": 4,
+        "user": "cawad@gmail.com"
+    },
+    {
+        "id": 5,
+        "latitude": "9.584554",
+        "longitude": "44.029022",
+        "UserId": 5,
+        "user": "canfar@gmail.com"
+    },
+    {
+        "id": 6,
+        "latitude": "9.584232",
+        "longitude": "44.028703",
+        "UserId": 6,
+        "user": "curad@gmail.com"
+    },
+    {
+        "id": 7,
+        "latitude": "9.584557529997507",
+        "longitude": "44.02820586999986",
+        "UserId": 7,
+        "user": "imuush@gmail.com"
+    }
+]
+io.on('connection', (socket) => {
     console.log('a user connected');
   
-    const updatedLocations = await  Locations.findAll({
-        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
-    })
+ 
 
     socket.on('send_locations', (msg) => {
       console.log('location: ' + msg);
-      io.emit('receive_locations', updatedLocations);
+      io.emit('receive_locations', locations);
     });
 
     socket.on('disconnect', () => {
