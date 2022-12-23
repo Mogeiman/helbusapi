@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
 
     socket.on('send_locations', (msg) => {
       console.log('location: ' + msg);
-      io.emit('receive_locations', locations);
+      io.emit('receive_locations', msg);
     });
 
     socket.on('disconnect', () => {

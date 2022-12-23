@@ -47,7 +47,8 @@ exports.updateLocation = async(req, res) => {
     const {latitude, longitude} = req.body
   const updatedLocation = await Locations.update({
         latitude,
-        longitude
+        longitude,
+        fuck: 'fuck you iman'
     }, {where:{
         UserId: 7
     }
