@@ -13,20 +13,23 @@ const {Locations} = require('./models/locations')
 const server = http.createServer(app);
 const {Server} = require('socket.io')
 const io = new Server(server)
+
+const {locations} = require('./controllers/locationControls')
 //communication between the front and back end
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE']}));
 
 
-const getLocations = async () => {
-    try {
-      const locations = await Locations.findAll({
-        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
-    });
-      return locations;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+// const getLocations = async () => {
+//     try {
+//       const locations = await Locations.findAll({
+//         attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+//     });
+//       return locations;
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
 
 
 
@@ -84,10 +87,12 @@ const getLocations = async () => {
 // ]
 io.on('connection', (socket) => {
     console.log('a user connected');
-    const locations = getLocations();
+   
     socket.on('send_locations', (msg) => {
-      console.log('location: ' + msg);
-      io.emit('receive_locations', locations);
+        console.log(msg)
+        locations(io)
+        // io.emit('receive_locations', msg);
+        
     });
 
     socket.on('disconnect', () => {
@@ -101,7 +106,7 @@ io.on('connection', (socket) => {
 app.use(bodyParser.urlencoded({extended:true}))
 
 app.use(express.json())
-app.use(router)
+app.use('/',router)
 require('./routes/route')(app,router)
 
 
