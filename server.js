@@ -16,16 +16,16 @@ const io = new Server(server)
 //communication between the front and back end
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE']}));
 console.log('hello')
-io.on('connection', (socket) => {
+io.on('connection', async(socket) => {
     console.log('a user connected');
   
-    // const updatedLocations = await  Locations.findAll({
-    //     attributes: ['id','latitude', 'longitude', 'UserId', 'user']
-    // })
+    const updatedLocations = await  Locations.findAll({
+        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+    })
 
     socket.on('send_locations', (msg) => {
       console.log('location: ' + msg);
-      io.emit('receive_locations', msg);
+      io.emit('receive_locations', updatedLocations);
     });
 
     socket.on('disconnect', () => {
