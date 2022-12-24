@@ -10,6 +10,9 @@ require('dotenv').config('./.env')
 const {sequelize} = require('./models')
 const {Locations} = require('./models/locations')
 
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+
 const server = http.createServer(app);
 const {Server} = require('socket.io')
 const io = new Server(server)
@@ -106,6 +109,18 @@ io.on('connection', (socket) => {
 app.use(bodyParser.urlencoded({extended:true}))
 
 app.use(express.json())
+app.use(cookieParser())
+
+app.use(session({
+    key: "userId",
+    secret: process.env.TOKEN_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie:{
+        expires: 60*60*24,
+    }
+
+}))
 app.use('/',router)
 require('./routes/route')(app,router)
 

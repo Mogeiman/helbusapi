@@ -12,6 +12,8 @@ module.exports = (app, router) => {
 			app.post('/createAdmin', userController.addUsers);
 			//Posting Login Info to Server
 			app.post('/login', userController.login);
+			// verifying if logged in
+			app.get('/login', userController.loginSession);
 
 	// Routes for Locations
 

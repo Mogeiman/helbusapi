@@ -6,7 +6,7 @@ require('dotenv').config('./.env')
 
 //Adding Users
 exports.addUsers = async (req, res) => {
-  let { name, email, password, license, latitude, longitude} = req.body
+  let { name, email, password, license} = req.body
     name= name.trim()
     email = email.trim()
     password = password.trim()
@@ -80,25 +80,33 @@ exports.login = async(req, res) => {
       res.json({
         status: "FAILED",
         message: "Password is wrong"
-    })    }
-
+    })}else{
+    const id = userExists.id
+    const user = userExists.email
+    const token = jwt.sign({id},process.env.TOKEN_SECRET, {expiresIn:3000,})
+    //starting a session * still don't understand
+    req.session.isAuthenticated = true
     res.json({
       status: 'Success',
       message: "Sign in successful",
-      data: userExists
-  })    
+      token: token,
+      id:id,
+      user: user
+    })    
+    }
+   
    })
 
 }
-//Start a session if req.session.user has been set
-// exports.loginSession = (req,res) => {
-//   if(req.session.user){
-//     res.send({loggedIn: true, user: req.session.user})
-//   }else{
-//     res.send({loggedIn: false})
+// Start a session if req.session.user has been set
+exports.loginSession = (req,res) => {
+  if(req.session.isAuthenticated){
+    res.send({loggedIn: true})
+  }else{
+    res.send({loggedIn: false})
     
-//   }
-// }
+  }
+}
 
 // exports.allUsers = (req, res) =>{
 //   Users.findAll({
