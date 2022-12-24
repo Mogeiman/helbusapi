@@ -35,7 +35,19 @@ app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE']}));
 
 
 
+app.use(express.json())
+app.use(cookieParser())
 
+app.use(session({
+    key: "userId",
+    secret: process.env.TOKEN_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie:{
+        expires: 60*60*24,
+    }
+
+}))
 
 // const locations = [
 //     {
@@ -108,19 +120,7 @@ io.on('connection', (socket) => {
 
 app.use(bodyParser.urlencoded({extended:true}))
 
-app.use(express.json())
-app.use(cookieParser())
 
-app.use(session({
-    key: "userId",
-    secret: process.env.TOKEN_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie:{
-        expires: 60*60*24,
-    }
-
-}))
 app.use('/',router)
 require('./routes/route')(app,router)
 
