@@ -15,6 +15,9 @@ module.exports = (app, router) => {
 			// verifying if logged in
 			app.get('/login', userController.loginSession);
 
+			// logout
+			app.get('/logout', userController.logOut)
+
 	// Routes for Locations
 
 			// creating Locations

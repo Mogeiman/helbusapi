@@ -41,8 +41,8 @@ app.use(cookieParser())
 app.use(session({
     key: "userId",
     secret: process.env.TOKEN_SECRET,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie:{
         expires: 60*60*24,
     }

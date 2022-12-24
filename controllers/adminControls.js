@@ -82,16 +82,13 @@ exports.login = async(req, res) => {
         message: "Password is wrong"
     })}else{
     const id = userExists.id
-    const user = userExists.email
     const token = jwt.sign({id},process.env.TOKEN_SECRET, {expiresIn:3000,})
     //starting a session * still don't understand
-    req.session.isAuthenticated = true
+    req.session.user = userExists
     res.json({
       status: 'Success',
       message: "Sign in successful",
-      token: token,
-      id:id,
-      user: user
+      token,
     })    
     }
    
@@ -100,10 +97,13 @@ exports.login = async(req, res) => {
 }
 // Start a session if req.session.user has been set
 exports.loginSession = (req,res) => {
-  if(req.session.isAuthenticated){
-    res.send({loggedIn: true})
+  if(req.session.user){
+    res.json({
+      loggedIn: true,
+      user: req.session.user
+      })
   }else{
-    res.send({loggedIn: false})
+    res.json({loggedIn: false})
     
   }
 }
@@ -119,14 +119,8 @@ exports.loginSession = (req,res) => {
 
 
 // //Loging out by destroying the session
-// exports.logOut = (req, res) => {
-//   req.session.destroy(function(err){
-//     if(err){
-//        console.log(err);
-//     }else{
-//         return res.status(200).json({loggedIn: false,auth:false,messege:"You have been logged Out"});
-//     }
-//  });
+exports.logOut = (req, res) => {
+  req.session.destroy()
+  res.json({loggedIn: false,message:"You have been logged Out"});
 
-  
-// }
+}
