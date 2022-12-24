@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull:false
     },
+    direction: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
     user: {
       type:DataTypes.STRING,
       allowNull:false

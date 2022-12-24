@@ -14,6 +14,9 @@ module.exports = {
       longitude: {
         type: Sequelize.STRING
       },
+      direction: {
+        type: Sequelize.STRING
+      },
       user: {
         type: Sequelize.STRING
       },

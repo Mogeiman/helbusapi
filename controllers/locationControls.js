@@ -2,7 +2,7 @@ const express = require('express')
 const {Users, Locations} = require('../models')
 
 exports.createLocations = async(req, res) => {
-    let {latitude, longitude, UserId, user} = req.body
+    let {latitude, longitude,direction, UserId, user} = req.body
 
     const LocationsExists = await Locations.findOne({where: {UserId: UserId}})
 
@@ -10,6 +10,7 @@ exports.createLocations = async(req, res) => {
         Locations.create({
             latitude,
             longitude,
+            direction,
             UserId,
             user
         });
@@ -19,7 +20,8 @@ exports.createLocations = async(req, res) => {
     }else{
         Locations.update({
         latitude,
-        longitude
+        longitude,
+        direction
     }, {where:{
         UserId: UserId
     }});
@@ -43,11 +45,11 @@ exports.getLocations = (req, res) => {
 }
 
 exports.updateLocation = async(req, res) => {
-    const {latitude, longitude, id} = req.body
+    const {latitude, longitude,direction, id} = req.body
   const updatedLocation = await Locations.update({
         latitude,
         longitude,
-        
+        direction,
     }, {where:{
         UserId: id
     }
@@ -59,7 +61,7 @@ res.json({
 
 exports.locations = (io)=>{
      Locations.findAll({
-        attributes: ['id','latitude', 'longitude', 'UserId', 'user']
+        attributes: ['id','latitude', 'longitude', 'direction', 'UserId', 'user']
     }).then(res=>{
             io.emit('receive_locations', res);
     }).catch((err)=>{
