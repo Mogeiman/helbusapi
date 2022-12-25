@@ -85,10 +85,10 @@ exports.login = async(req, res) => {
     const token = jwt.sign({id},process.env.TOKEN_SECRET, {expiresIn:3000,})
     //starting a session * still don't understand
     req.session.user = userExists
+    req.session.token = token
     res.json({
       status: 'Success',
       message: "Sign in successful",
-      token,
     })    
     }
    
@@ -97,10 +97,12 @@ exports.login = async(req, res) => {
 }
 // Start a session if req.session.user has been set
 exports.loginSession = (req,res) => {
-  if(req.session.user){
+  const {token, user} = req.session
+  if(user){
     res.json({
       loggedIn: true,
-      user: req.session.user
+      token,
+      user
       })
   }else{
     res.json({loggedIn: false})

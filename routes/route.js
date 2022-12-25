@@ -26,5 +26,4 @@ module.exports = (app, router) => {
 
 			// update Locations
 			app.post('/updateLocation', LocationController.updateLocation)
-
 }
