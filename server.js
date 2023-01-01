@@ -17,7 +17,7 @@ const server = http.createServer(app);
 const {Server} = require('socket.io')
 const io = new Server(server)
 
-const {locations} = require('./controllers/locationControls')
+const {locations, updateLocation} = require('./controllers/locationControls')
 //communication between the front and back end
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE']}));
 
@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
     console.log('a user connected');
    
     socket.on('send_locations', (msg) => {
-        console.log(msg)
+        updateLocation(io,msg)
         locations(io)
         // io.emit('receive_locations', msg);
         
