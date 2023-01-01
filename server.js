@@ -105,7 +105,9 @@ io.on('connection', (socket) => {
     console.log('a user connected');
    
     socket.on('send_locations', (msg) => {
-        updateLocation(io,msg)
+        if(msg.id){
+            updateLocation(io,msg)
+        }
         locations(io)
         // io.emit('receive_locations', msg);
         

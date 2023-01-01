@@ -56,6 +56,8 @@ exports.updateLocation = async(io, msg) => {
 }).then((res)=>{
     res.json({
         newLocations
+    }).catch(err=>{
+        console.log(err)
     })
 })
 
