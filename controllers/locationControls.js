@@ -44,19 +44,20 @@ exports.getLocations = (req, res) => {
     })
 }
 
-exports.updateLocation = async(io, msg, res) => {
-    const {latitude, longitude,direction, id} = msg
-    const newLocations = await Locations.findOne({where: {UserId: id}})
-    if(newLocations){
-        Locations.update({
-            latitude,
-            longitude,
-            direction
-        }, {where:{
-            UserId: id
-        }});
-        console.log('updated yeay')
-    }}
+exports.updateLocation = async(req, res) => {
+    const {latitude, longitude,direction, id} = req.body
+  const updatedLocation = await Locations.update({
+        latitude,
+        longitude,
+        direction,
+    }, {where:{
+        UserId: id
+    }
+})
+res.json({
+    location:updatedLocation
+})
+}
 
 exports.locations = (io)=>{
      Locations.findAll({
